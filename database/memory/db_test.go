@@ -564,8 +564,18 @@ func TestMemorydb_erc20Balance(t *testing.T) {
 	holdrArr, err = db.GetAllTokenHolders(contrAddr, 2, &types.TokenQueryOptions{BeginBlockNumber: big.NewInt(1), EndBlockNumber: big.NewInt(2)})
 	assert.Nil(t, err)
 	assert.Equal(t, len(holdrArr), 2)
-	assert.Equal(t, holdrArr[0], holder0)
-	assert.Equal(t, holdrArr[1], holder1)
+
+	holder0Found := false
+	holder1Found := false
+	for _, h := range holdrArr {
+		if h == holder0 {
+			holder0Found = true
+		} else if h == holder1 {
+			holder1Found = true
+		}
+	}
+	assert.Equal(t, holder0Found, true)
+	assert.Equal(t, holder1Found, true)
 
 }
 
